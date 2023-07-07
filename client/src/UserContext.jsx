@@ -1,4 +1,5 @@
 import {createContext, useEffect, useState} from "react";
+import { axiosInstance } from "./config";
 import axios from "axios";
 
 export const UserContext = createContext({});
@@ -8,7 +9,7 @@ export function UserContextProvider({children}) {
   const [id, setId] = useState(null);
 
   useEffect(()=>{
-      axios.get('/profile').then(response => {
+      axiosInstance.get('/profile').then(response => {
         setId(response.data.userId);
         setUsername(response.data.username)
       })

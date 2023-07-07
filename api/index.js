@@ -18,7 +18,7 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 app.use(express.json());
 app.use(cors({
     credentials:true,
-    origin:process.env.CLIENT_ORIGIN
+    origin:["http://127.0.0.1:5173", "https://mern-chat-app-pr5w.onrender.com"]
 }))
 
 

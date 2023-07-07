@@ -1,5 +1,6 @@
 import { useContext, useState } from "react"
 import axios from "axios"
+import { axiosInstance } from "./config";
 import { UserContext } from "./UserContext";
 
 function Register() {
@@ -12,7 +13,7 @@ function Register() {
     async function handleSubmit(ev){
         ev.preventDefault();
         const url = isLoginOrRegiter === 'register'?'register':'login';
-        const {data} = await axios.post(url, {username, password});
+        const {data} = await axiosInstance.post(url, {username, password});
         setLoggedInUsername(username);
         setId(data.id);
     }

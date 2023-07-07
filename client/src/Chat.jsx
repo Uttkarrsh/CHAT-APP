@@ -2,8 +2,10 @@ import { useContext, useEffect, useState, useRef } from "react"
 import Avatar from "./Avatar";
 import axios from "axios"
 import { UserContext } from "./UserContext";
+import { AxiosInstance } from "axios";
 import {uniqBy} from "lodash"
 import Contact from "./Contact";
+import { axiosInstance } from "./config";
 
 function Chat() {
 
@@ -22,7 +24,8 @@ function Chat() {
     }, []);
 
     function connectToWs(){
-        const ws = new WebSocket('ws://localhost:4040');
+        // const ws = new WebSocket('ws://localhost:4040');
+        const ws = new WebSocket('wss://mern-chat-app-pr5w.onrender.com');
         setWs(ws);
         ws.addEventListener('message', handleMessage);
         ws.addEventListener('close', ()=>{
@@ -62,7 +65,7 @@ function Chat() {
     }
 
     useEffect(()=>{
-        axios.get('/people').then(res=>{
+        axiosInstance.get('/people').then(res=>{
             const offlinePeopleArr = res.data
             .filter(p=>p._id!==id)
             .filter(p=> !Object.keys(onlinePeople).includes(p._id))
@@ -85,7 +88,7 @@ function Chat() {
 
     useEffect(()=>{
         if(selectedUserId)
-        axios.get('/messages/'+selectedUserId).then(res =>{
+        axiosInstance.get('/messages/'+selectedUserId).then(res =>{
             // const {data} = res;
             setMessages(res.data)
         });
@@ -105,7 +108,7 @@ function Chat() {
     }
 
     function logout() {
-        axios.post('/logout').then(() => {
+        axiosInstance.post('/logout').then(() => {
           setWs(null);
           setId(null);
           setUsername(null);
