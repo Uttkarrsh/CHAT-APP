@@ -16,10 +16,11 @@ app.use(cookieParser())
 const jwtSecret = process.env.JWT_SECRET;
 const bcryptSalt = bcrypt.genSaltSync(10);
 app.use(express.json());
-app.use(cors({
-    credentials:true,
-    origin:["http://127.0.0.1:5173", "https://mern-chat-app-pr5w.onrender.com"]
-}))
+// app.use(cors({
+//     credentials:true,
+//     origin:["http://127.0.0.1:5173", "https://mern-chat-app-pr5w.onrender.com"]
+// }))
+app.use(cors());
 
 
 mongoose.connect(process.env.MONGO_URL).then(()=>{
