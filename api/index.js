@@ -36,11 +36,13 @@ app.get('/test', (req,res) => {
     return new Promise((resolve, reject)=>{
         const token = req.cookies?.token;
         if(token){
+            console.log(token);
             jwt.verify(token, jwtSecret,{}, (err, userData)=>{
                 if(err) throw err;
                 resolve(userData); 
             })
         }else{
+            console.log("NO token");
             reject('no token');
         }
     })
