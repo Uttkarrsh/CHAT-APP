@@ -16,13 +16,20 @@ app.use(cookieParser())
 const jwtSecret = process.env.JWT_SECRET;
 const bcryptSalt = bcrypt.genSaltSync(10);
 app.use(express.json());
-app.use(cors({
-    credentials:true,
-    // origin:["http://127.0.0.1:5173", "https://mern-chat-app-pr5w.onrender.com"]
-    origin:true,
-}))
+// app.use(cors({
+//     credentials:true,
+//     // origin:["http://127.0.0.1:5173", "https://mern-chat-app-pr5w.onrender.com"]
+//     origin: process.env.CLIENT_URL,
+//     // origin:true,
+// }))
 // app.use(cors());
 
+app.use(cors({
+    credentials: true,
+    origin: true,
+  }));
+
+// app.use(cors());
 
 mongoose.connect(process.env.MONGO_URL).then(()=>{
     console.log("Connected to MONGODB")
@@ -36,13 +43,13 @@ app.get('/test', (req,res) => {
     return new Promise((resolve, reject)=>{
         const token = req.cookies?.token;
         if(token){
-            console.log(token);
+            // console.log(token);
             jwt.verify(token, jwtSecret,{}, (err, userData)=>{
                 if(err) throw err;
                 resolve(userData); 
             })
         }else{
-            console.log("NO token");
+            // console.log("NO token");
             reject('no token');
         }
     })
